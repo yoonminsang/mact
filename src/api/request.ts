@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { addQuery, changeParam } from './api.helper';
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -18,7 +20,7 @@ async function request<T>({
 }: {
   method: Method;
   url: string;
-  body?: unknown;
+  body?: any;
   query?: Record<string, any>;
   param?: Record<string, any>;
   headerOption: Record<string, any>;

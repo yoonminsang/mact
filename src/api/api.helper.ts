@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-param-reassign */
+
 export const addQuery = (url: string, query?: Record<string, any>) => {
   if (!query) return url;
   let existQuestionMark = false;
-  Object.entries(query).forEach(([key, value], index) => {
+  Object.entries(query).forEach(([key, value]) => {
     if (value === undefined || value === null || value === '') return;
     if (!existQuestionMark) {
       url += `?${key}=${value}`;
