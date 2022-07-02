@@ -32,7 +32,7 @@
     "class-methods-use-this": "off",
     "no-console": "off",
     "no-plusplus": "off",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "no-unused-vars": "off",
     "no-else-return": "off",
     "no-new": "off",
     "no-continue": "off",
