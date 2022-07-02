@@ -4,7 +4,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: './src/index.ts',
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
@@ -24,12 +24,8 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              '@babel/preset-typescript',
-            ],
-            plugins: [
-              ['@babel/plugin-transform-runtime', { corejs: 3 }],
-            ],
+            presets: ['@babel/preset-typescript'],
+            plugins: [['@babel/plugin-transform-runtime', { corejs: 3 }]],
           },
         },
       },
