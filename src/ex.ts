@@ -1,19 +1,11 @@
-import { Component } from './lib/mact/component';
+import { Component } from './lib/mact2/component';
 
-class Ex extends Component<{ id: number }, { id: number }> {
-  setup() {
-    this.state = { id: 10 };
-  }
-  componentDidMount() {
-    console.log('ex didmount');
-    this.setState({ id: this.state.id + 1 });
-  }
-  template() {
-    return `<div>
-    ex id:${this.props.id}
-    ex state id:${this.state.id}
-    </div>`;
+export class Ex extends Component<{ id: number }> {
+  render() {
+    return `
+    <div>
+      <div>ex props id : ${this.props.id}</div>
+    </div>
+    `;
   }
 }
-
-export default Ex;

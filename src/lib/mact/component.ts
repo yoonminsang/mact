@@ -16,9 +16,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
 
   protected setup() {}
 
-  protected template() {
-    return '';
-  }
+  protected abstract template(): string;
 
   private render() {
     const newNode = this.$target.cloneNode(true) as HTMLElement;

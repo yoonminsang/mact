@@ -1,42 +1,35 @@
-import Ex from './ex';
-import { Component } from './lib/mact/component';
+import { Ex } from './ex';
+import { Component } from './lib/mact2/component';
 
-interface State {
-  id: number;
-  nickname: string;
-}
+export default class App extends Component<{}, { id: number }> {
+  $app!: HTMLElement;
+  $ex!: Component;
 
-class App extends Component<{}, State> {
   setup() {
-    this.state = { id: 1, nickname: 'minsang' };
+    this.$app = document.getElementById('root') as HTMLElement;
+    this.state = { id: 1 };
+    this.$ex = this.addComponent(Ex, { id: this.state.id });
   }
 
   componentDidMount() {
-    console.log('app didmount');
+    this.$app.append(this.$element);
   }
 
-  appendComponent() {
-    const $ex = this.$target.querySelector('.ex') as HTMLElement;
-    new Ex($ex, { id: this.state.id });
-  }
-
-  setEvent() {
-    this.addEvent('click', '.js-btn', () => {
+  setEvents() {
+    (this.$element.querySelector('.js-increase') as HTMLElement).addEventListener('click', () => {
       this.setState({ id: this.state.id + 1 });
     });
   }
 
-  template() {
-    const { id, nickname } = this.state;
+  render(): string {
     return `
-    <div>
-      <button class='js-btn'>increase id</button>
-      <div class=${id}>id:${id}</div>
-      <div>nickname:${nickname}</div>
-      <div class='ex' component></div>
+    <div class='app'>
+      <h1>App</h1>
+      <button class='js-increase'>id 증가</button>
+      <button class='js-decrease'>id 감소</button>
+      <div>app state id: ${this.state.id}</div>
+      ${this.$ex.html}
     </div>
     `;
   }
 }
-
-export default App;

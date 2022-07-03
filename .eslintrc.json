@@ -38,6 +38,7 @@
     "no-continue": "off",
     "no-alert": "off",
     "no-nested-ternary": "off",
+    "no-param-reassign": "off",
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
