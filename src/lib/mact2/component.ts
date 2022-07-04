@@ -24,8 +24,8 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
 
   constructor(props: P) {
     Component.ID += 1;
-    this.props = props;
     this.setup();
+    this.props = props;
     this.$element = this.$newElement;
     this.componentDidMount();
     this.setEvents();
@@ -40,8 +40,10 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   protected setEvents() {}
 
   updateProps(id: string, props: P) {
-    this.$components[id].props = props;
-    this.update();
+    if (this.$components[id]) {
+      this.$components[id].props = props;
+      this.$components[id].update();
+    }
   }
 
   protected setup() {}
@@ -53,6 +55,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   }
 
   protected setState<K extends keyof S>(newState: Pick<S, K> | S | null, callback?: Function) {
+    console.log('setstate this', this);
     this.componentDidUpdate({ ...this.state }, { ...this.state, ...newState });
     this.state = { ...this.state, ...newState };
     this.update();

@@ -10,6 +10,8 @@ const updateAttributes = ($originNode: HTMLElement, $newNode: HTMLElement) => {
 };
 
 const updateNode = ($target: HTMLElement, $originNode: ChildNode, $newNode: ChildNode) => {
+  if ($originNode && !$newNode) return $originNode.remove();
+
   // Add new node
   if (!$originNode && $newNode) return $target.appendChild($newNode);
 
@@ -38,7 +40,6 @@ const updateNode = ($target: HTMLElement, $originNode: ChildNode, $newNode: Chil
 };
 
 export const reconciliation = ($originElement: HTMLElement, $newElement: HTMLElement) => {
-  console.log('reconcilation', $originElement, $newElement);
   const $originNodes = [...$originElement.childNodes];
   const $newNodes = [...$newElement.childNodes];
   const max = Math.max($originNodes.length, $newNodes.length);

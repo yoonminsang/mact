@@ -17,11 +17,19 @@ export default class App extends Component<{}, { id: number }> {
 
   setEvents() {
     (this.$element.querySelector('.js-increase') as HTMLElement).addEventListener('click', () => {
-      this.setState({ id: this.state.id + 1 });
+      const { id } = this.state;
+      this.updateProps(this.$ex.id, { id: id + 1 });
+      this.setState({ id: id + 1 });
+    });
+    (this.$element.querySelector('.js-decrease') as HTMLElement).addEventListener('click', () => {
+      const { id } = this.state;
+      this.updateProps(this.$ex.id, { id: id - 1 });
+      this.setState({ id: id - 1 });
     });
   }
 
   render(): string {
+    // this.$ex.updateProps(this.$ex.id, this.state.id);
     return `
     <div class='app'>
       <h1>App</h1>

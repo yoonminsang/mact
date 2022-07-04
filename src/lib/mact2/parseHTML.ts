@@ -3,7 +3,7 @@ import { IComponents } from './component';
 
 // TODO: 함수 두개를 나누는게 맞을까?? if문으로(C-) 분기쳐서 함수 호출하는게 맞을까?
 
-const replaceComponent = ($target: HTMLElement, components: IComponents, key: string) => {
+const replaceComponent = async ($target: HTMLElement, components: IComponents, key: string) => {
   $target.replaceWith(components[key].$element as HTMLElement);
 };
 
@@ -26,5 +26,5 @@ export const parseHTML = (html: string, components: IComponents): HTMLElement =>
 
   bfsForReplaceComponent($target, components);
 
-  return ($target.firstElementChild ?? $target) as HTMLElement;
+  return $target.firstElementChild as HTMLElement;
 };
