@@ -1,4 +1,4 @@
-import { Component } from './lib/mact2/component';
+import { Component } from './lib/mact/component';
 
 export class Ex extends Component<{ id: number }, { id: number }> {
   setup() {

@@ -1,5 +1,5 @@
 import { Ex } from './ex';
-import { Component } from './lib/mact2/component';
+import { Component } from './lib/mact/component';
 
 export default class App extends Component<{}, { id: number }> {
   $app!: HTMLElement;
@@ -18,12 +18,10 @@ export default class App extends Component<{}, { id: number }> {
   setEvents() {
     (this.$element.querySelector('.js-increase') as HTMLElement).addEventListener('click', () => {
       const { id } = this.state;
-      this.updateProps(this.$ex.id, { id: id + 1 });
       this.setState({ id: id + 1 });
     });
     (this.$element.querySelector('.js-decrease') as HTMLElement).addEventListener('click', () => {
       const { id } = this.state;
-      this.updateProps(this.$ex.id, { id: id - 1 });
       this.setState({ id: id - 1 });
     });
   }
@@ -36,8 +34,9 @@ export default class App extends Component<{}, { id: number }> {
       <button class='js-increase'>id 증가</button>
       <button class='js-decrease'>id 감소</button>
       <div>app state id: ${this.state.id}</div>
-      ${this.$ex.html}
+      <${this.$ex.id} id=${this.state.id}></${this.$ex.id}/>
     </div>
     `;
+    // ${this.$ex.html}
   }
 }

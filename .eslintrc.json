@@ -22,6 +22,7 @@
   },
   "rules": {
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/lines-between-class-members": "off",
