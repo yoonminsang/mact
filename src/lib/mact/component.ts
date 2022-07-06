@@ -19,7 +19,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
     return this.parseHTML(this.render());
   }
 
-  protected $components: IComponents = {};
+  private $components: IComponents = {};
 
   static ID = 0;
   public id = TAG + Component.ID;
@@ -27,11 +27,14 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   constructor(props: P) {
     Component.ID += 1;
     this.setup();
+    this.addComponents();
     this.props = props;
     this.$element = this.$newElement;
     this.componentDidMount();
     this.setEvents();
   }
+
+  protected addComponents() {}
 
   protected addComponent<PT = {}>(ComponentClass: new (props: PT) => Component, props: PT): Component {
     const newComponent: Component = new ComponentClass(props);
@@ -40,13 +43,6 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   }
 
   protected setEvents() {}
-
-  public updateProps(id: string, props: TProps) {
-    if (this.$components[id]) {
-      this.$components[id].props = props;
-      this.$components[id].update();
-    }
-  }
 
   protected setup() {}
 
@@ -68,9 +64,14 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected componentDidUpdate(state: S, nextState: S) {}
 
-  // TODO: 클래스로 분리??
+  private updateProps(id: string, props: TProps) {
+    if (this.$components[id]) {
+      this.$components[id].props = props;
+      this.$components[id].update();
+    }
+  }
 
-  async replaceComponent($target: HTMLElement, id: string) {
+  private async replaceComponent($target: HTMLElement, id: string) {
     const nextProps: TProps = {};
     [...$target.attributes].forEach(({ name, value }) => {
       // @ts-ignore
@@ -89,8 +90,8 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
       this.replaceComponent($target, nodeName);
     }
 
-    $children.forEach(($element) => {
-      this.bfsForReplaceComponent($element as HTMLElement);
+    $children.forEach(($el) => {
+      this.bfsForReplaceComponent($el as HTMLElement);
     });
   }
 

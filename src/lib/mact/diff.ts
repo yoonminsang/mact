@@ -10,6 +10,7 @@ const updateAttributes = ($originNode: HTMLElement, $newNode: HTMLElement) => {
 };
 
 const updateNode = ($target: HTMLElement, $originNode: ChildNode, $newNode: ChildNode) => {
+  // Remove origin node
   if ($originNode && !$newNode) return $originNode.remove();
 
   // Add new node

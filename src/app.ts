@@ -8,6 +8,9 @@ export default class App extends Component<{}, { id: number }> {
   setup() {
     this.$app = document.getElementById('root') as HTMLElement;
     this.state = { id: 1 };
+  }
+
+  addComponents() {
     this.$ex = this.addComponent(Ex, { id: this.state.id });
   }
 
@@ -27,7 +30,6 @@ export default class App extends Component<{}, { id: number }> {
   }
 
   render(): string {
-    // this.$ex.updateProps(this.$ex.id, this.state.id);
     return `
     <div class='app'>
       <h1>App</h1>
@@ -37,6 +39,5 @@ export default class App extends Component<{}, { id: number }> {
       <${this.$ex.id} id=${this.state.id}></${this.$ex.id}/>
     </div>
     `;
-    // ${this.$ex.html}
   }
 }
