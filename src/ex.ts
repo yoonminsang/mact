@@ -5,11 +5,13 @@ export class Ex extends Component<{ id: number }, { id: number }> {
     this.state = { id: 1 };
   }
   setEvents() {
-    (this.$element.querySelector('.js-increase') as HTMLElement).addEventListener('click', () => {
-      this.setState({ id: this.state.id + 1 });
+    this.addEvent('click', '.js-increase', () => {
+      const { id } = this.state;
+      this.setState({ id: id + 1 });
     });
-    (this.$element.querySelector('.js-decrease') as HTMLElement).addEventListener('click', () => {
-      this.setState({ id: this.state.id - 1 });
+    this.addEventDelegation('click', '.js-decrease', () => {
+      const { id } = this.state;
+      this.setState({ id: id - 1 });
     });
   }
   render() {
