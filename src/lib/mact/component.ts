@@ -15,8 +15,8 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   protected state!: S;
 
   public $element: HTMLElement;
-  private get $newElement() {
-    return this.parseHTML(this.render());
+  private getNewElement(isInit?: boolean) {
+    return this.parseHTML(this.render(), isInit);
   }
 
   private $components: IComponents = {};
@@ -29,7 +29,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
     this.setup();
     this.addComponents();
     this.props = props;
-    this.$element = this.$newElement;
+    this.$element = this.getNewElement(true);
     this.componentDidMount();
     this.setEvents();
   }
@@ -44,12 +44,25 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
 
   protected setEvents() {}
 
+  protected addEvent(eventType: keyof DocumentEventMap, selector: string, callback: (e: Event) => void) {
+    this.$element.querySelector(selector)?.addEventListener(eventType, callback);
+  }
+
+  protected addEventDelegation(eventType: keyof DocumentEventMap, selector: string, callback: (e: Event) => void) {
+    const children = [...this.$element.querySelectorAll(selector)];
+    const isTarget = (target: HTMLElement) => children.includes(target) || target.closest(selector);
+    this.$element.addEventListener(eventType, (e) => {
+      if (!isTarget(e.target as HTMLElement)) return false;
+      callback(e);
+    });
+  }
+
   protected setup() {}
 
   protected abstract render(): string;
 
   private update() {
-    reconciliation(this.$element, this.$newElement);
+    reconciliation(this.$element, this.getNewElement());
   }
 
   protected setState<K extends keyof S>(newState: Pick<S, K> | S | null, callback?: Function) {
@@ -71,7 +84,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
     }
   }
 
-  private async replaceComponent($target: HTMLElement, id: string) {
+  private async replaceComponent($target: HTMLElement, id: string, isInit?: boolean) {
     const nextProps: TProps = {};
     [...$target.attributes].forEach(({ name, value }) => {
       // @ts-ignore
@@ -79,27 +92,30 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
       nextProps[name] = getJSONparse(value);
     });
     this.updateProps(id, nextProps);
-    $target.replaceWith(this.$components[id].$element as HTMLElement);
+    const el = isInit
+      ? (this.$components[id].$element as HTMLElement)
+      : (this.$components[id].$element as HTMLElement).cloneNode(true);
+    $target.replaceWith(el);
   }
 
-  private bfsForReplaceComponent($target: HTMLElement) {
+  private bfsForReplaceComponent($target: HTMLElement, isInit?: boolean) {
     const $children = [...$target.children];
     const { nodeName } = $target;
 
     if (nodeName.startsWith('C-')) {
-      this.replaceComponent($target, nodeName);
+      this.replaceComponent($target, nodeName, isInit);
     }
 
     $children.forEach(($el) => {
-      this.bfsForReplaceComponent($el as HTMLElement);
+      this.bfsForReplaceComponent($el as HTMLElement, isInit);
     });
   }
 
-  private parseHTML(html: string): HTMLElement {
+  private parseHTML(html: string, isInit?: boolean): HTMLElement {
     const $target = document.createElement('div');
     $target.innerHTML = html;
 
-    this.bfsForReplaceComponent($target);
+    this.bfsForReplaceComponent($target, isInit);
 
     return $target.firstElementChild as HTMLElement;
   }
