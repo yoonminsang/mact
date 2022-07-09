@@ -14,8 +14,8 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   protected props: P;
   protected state!: S;
 
-  public $element: HTMLElement;
-  private getNewElement(isInit?: boolean) {
+  public $el: HTMLElement;
+  private getNewEl(isInit?: boolean) {
     return this.parseHTML(this.render(), isInit);
   }
 
@@ -29,7 +29,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
     this.setup();
     this.addComponents();
     this.props = props;
-    this.$element = this.getNewElement(true);
+    this.$el = this.getNewEl(true);
     this.componentDidMount();
     this.setEvents();
   }
@@ -45,13 +45,13 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   protected setEvents() {}
 
   protected addEvent(eventType: keyof DocumentEventMap, selector: string, callback: (e: Event) => void) {
-    this.$element.querySelector(selector)?.addEventListener(eventType, callback);
+    this.$el.querySelector(selector)?.addEventListener(eventType, callback);
   }
 
   protected addEventDelegation(eventType: keyof DocumentEventMap, selector: string, callback: (e: Event) => void) {
-    const children = [...this.$element.querySelectorAll(selector)];
+    const children = [...this.$el.querySelectorAll(selector)];
     const isTarget = (target: HTMLElement) => children.includes(target) || target.closest(selector);
-    this.$element.addEventListener(eventType, (e) => {
+    this.$el.addEventListener(eventType, (e) => {
       if (!isTarget(e.target as HTMLElement)) return false;
       callback(e);
     });
@@ -62,7 +62,7 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
   protected abstract render(): string;
 
   private update() {
-    reconciliation(this.$element, this.getNewElement());
+    reconciliation(this.$el, this.getNewEl());
   }
 
   protected setState<K extends keyof S>(newState: Pick<S, K> | S | null, callback?: Function) {
@@ -93,8 +93,8 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
     });
     this.updateProps(id, nextProps);
     const el = isInit
-      ? (this.$components[id].$element as HTMLElement)
-      : (this.$components[id].$element as HTMLElement).cloneNode(true);
+      ? (this.$components[id].$el as HTMLElement)
+      : (this.$components[id].$el as HTMLElement).cloneNode(true);
     $target.replaceWith(el);
   }
 
