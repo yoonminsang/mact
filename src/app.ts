@@ -15,7 +15,7 @@ export default class App extends Component<{}, { id: number }> {
   }
 
   componentDidMount() {
-    this.$app.append(this.$element);
+    this.$app.append(this.$el);
   }
 
   setEvents() {
