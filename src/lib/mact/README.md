@@ -1,4 +1,5 @@
-# mact
+# mact(MinSang React)
 
-- 간단한 클래스형 리액트
-- diff 알고리즘, state, props 적용
+- Simpole Class Component like React
+- Functions such as state, props, componentDidMount, componentDidUpdate like React
+- Attention to the performance(Diff Algorithms, Key)

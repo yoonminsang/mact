@@ -1,1 +1,1 @@
-# 리액트 타입스크립트 보일러플레이트
+# Vanilla Typescript Project
