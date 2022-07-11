@@ -1,7 +1,8 @@
-import { Component } from './lib/mact/component';
-import { List } from './list';
+import { Component } from '@/lib/mact';
 
-export class Ex extends Component<{ id: number }, { id: number }> {
+import List from './list';
+
+export default class Child extends Component<{ id: number }, { id: number }> {
   $list!: Component;
 
   setup() {
@@ -25,10 +26,10 @@ export class Ex extends Component<{ id: number }, { id: number }> {
   render() {
     return `
     <div>
-      <div>ex props id : ${this.props.id}</div>
-      <div>ex state id : ${this.state.id}</div>
-      <button class='js-increase'>id 증가</button>
-      <button class='js-decrease'>id 감소</button>
+      <div>child props id : ${this.props.id}</div>
+      <div>child state id : ${this.state.id}</div>
+      <button class='js-increase'>child id increase</button>
+      <button class='js-decrease'>child id decrease delegation</button>
       <${this.$list.id}></${this.$list.id}/>
     </div>
     `;

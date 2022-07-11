@@ -1,19 +1,19 @@
-import { Component } from './lib/mact/component';
+import { Component } from '@/lib/mact';
 
-export class List extends Component<{}, { list: string[]; id: number }> {
+export default class List extends Component<{}, { list: string[]; id: number }> {
   setup() {
-    this.state = { list: ['아이템 1', '아이템 2'], id: 2 };
+    this.state = { list: ['item 1', 'item 2'], id: 2 };
   }
   setEvents() {
     this.addEvent('click', '.js-add-first-item', () => {
       const { list, id } = this.state;
       const nextId = id + 1;
-      this.setState({ list: [`아이템 ${nextId}`, ...list], id: nextId });
+      this.setState({ list: [`item ${nextId}`, ...list], id: nextId });
     });
     this.addEvent('click', '.js-add-last-item', () => {
       const { list, id } = this.state;
       const nextId = id + 1;
-      this.setState({ list: [...list, `아이템 ${nextId}`], id: nextId });
+      this.setState({ list: [...list, `item ${nextId}`], id: nextId });
     });
     this.addEvent('click', '.js-remove-first-item', () => {
       const { list } = this.state;
@@ -31,10 +31,10 @@ export class List extends Component<{}, { list: string[]; id: number }> {
   render() {
     return `
     <div>
-      <button class='js-add-first-item'>첫번째 아이템 추가</button>
-      <button class='js-add-last-item'>마지막 아이템 추가</button>
-      <button class='js-remove-first-item'>첫번째 아이템 삭제</button>
-      <button class='js-remove-last-item'>마지막 아이템 삭제</button>  
+      <button class='js-add-first-item'>add first item</button>
+      <button class='js-add-last-item'>add last item</button>
+      <button class='js-remove-first-item'>remove first item</button>
+      <button class='js-remove-last-item'>remove last item</button>  
       <ul>
         ${this.state.list.map((v) => `<li key="${v}">${v}</li>`).join('')}
       </ul>

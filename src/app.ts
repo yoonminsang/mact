@@ -1,21 +1,16 @@
-import { Ex } from './ex';
-import { Component } from './lib/mact/component';
+import { Component } from '@/lib/mact';
+
+import Child from './child';
 
 export default class App extends Component<{}, { id: number }> {
-  $app!: HTMLElement;
-  $ex!: Component;
+  $child!: Component;
 
   setup() {
-    this.$app = document.getElementById('root') as HTMLElement;
     this.state = { id: 1 };
   }
 
   addComponents() {
-    this.$ex = this.addComponent(Ex, { id: this.state.id });
-  }
-
-  componentDidMount() {
-    this.$app.append(this.$el);
+    this.$child = this.addComponent(Child, { id: this.state.id });
   }
 
   setEvents() {
@@ -33,10 +28,10 @@ export default class App extends Component<{}, { id: number }> {
     return `
     <div class='app'>
       <h1>App</h1>
-      <button class='js-increase'>id 증가</button>
-      <button class='js-decrease'>id 감소</button>
+      <button class='js-increase'>id increase</button>
+      <button class='js-decrease'>id decrease</button>
       <div>app state id: ${this.state.id}</div>
-      <${this.$ex.id} id=${this.state.id}></${this.$ex.id}/>
+      <${this.$child.id} id=${this.state.id}></${this.$child.id}/>
     </div>
     `;
   }
