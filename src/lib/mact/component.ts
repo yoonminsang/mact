@@ -10,7 +10,7 @@ interface IComponents {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TProps = Record<string, any>;
 
-export abstract class Component<P extends {} = {}, S extends {} = {}> {
+abstract class Component<P extends {} = {}, S extends {} = {}> {
   protected props: P;
   protected state!: S;
 
@@ -120,3 +120,5 @@ export abstract class Component<P extends {} = {}, S extends {} = {}> {
     return $target.firstElementChild as HTMLElement;
   }
 }
+
+export default Component;
