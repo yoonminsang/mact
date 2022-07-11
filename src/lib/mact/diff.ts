@@ -76,6 +76,7 @@ function updateNode($target: HTMLElement, $originNode: ChildNode, $newNode: Chil
   // Update Attributes
   updateAttributes($originEl, $newEl);
 
+  // Update By Key
   if (
     ($originNode as HTMLElement).firstElementChild?.getAttribute('key') &&
     ($newNode as HTMLElement).firstElementChild?.getAttribute('key')
@@ -88,7 +89,7 @@ function updateNode($target: HTMLElement, $originNode: ChildNode, $newNode: Chil
   const $newNodes = [...$newEl.childNodes];
   const max = Math.max($originNodes.length, $newNodes.length);
   for (let i = 0; i < max; i++) {
-    updateNode($target, $originNodes[i], $newNodes[i]);
+    updateNode($originEl, $originNodes[i], $newNodes[i]);
   }
 }
 
