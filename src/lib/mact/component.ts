@@ -66,6 +66,7 @@ abstract class Component<P extends {} = {}, S extends {} = {}> {
   }
 
   protected setState<K extends keyof S>(newState: Pick<S, K> | S | null, callback?: Function) {
+    if (!this.checkNeedUpdate(newState)) return;
     this.componentDidUpdate({ ...this.state }, { ...this.state, ...newState });
     this.state = { ...this.state, ...newState };
     this.update();
@@ -76,6 +77,16 @@ abstract class Component<P extends {} = {}, S extends {} = {}> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected componentDidUpdate(state: S, nextState: S) {}
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private checkNeedUpdate(newState: any) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key in newState) {
+      // @ts-ignore
+      if (!Object.is(newState[key], this.state[key])) return true;
+    }
+    return false;
+  }
 
   private updateProps(id: string, props: TProps) {
     if (this.$components[id]) {
