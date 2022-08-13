@@ -70,7 +70,7 @@ abstract class Component<P = {}, S = {}> {
     this.componentDidUpdate({ ...this.state }, { ...this.state, ...newState });
     this.state = { ...this.state, ...newState };
     debounceFrame(() => {
-      this.render();
+      this.update();
       callback?.();
     })();
   }
