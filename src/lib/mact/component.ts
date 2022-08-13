@@ -10,7 +10,7 @@ interface IComponents {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TProps = Record<string, any>;
 
-abstract class Component<P extends {} = {}, S extends {} = {}> {
+abstract class Component<P = {}, S = {}> {
   protected props: P;
   protected state!: S;
 
