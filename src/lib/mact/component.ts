@@ -1,5 +1,5 @@
 import { reconciliation } from './diff';
-import { getJSONparse } from './helper';
+import { debounceFrame, getJSONparse } from './helper';
 
 const TAG = 'C-';
 
@@ -69,8 +69,10 @@ abstract class Component<P = {}, S = {}> {
     if (!this.checkNeedUpdate(newState)) return;
     this.componentDidUpdate({ ...this.state }, { ...this.state, ...newState });
     this.state = { ...this.state, ...newState };
-    this.update();
-    callback?.();
+    debounceFrame(() => {
+      this.render();
+      callback?.();
+    })();
   }
 
   protected componentDidMount() {}

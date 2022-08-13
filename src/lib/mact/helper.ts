@@ -5,3 +5,11 @@ export const getJSONparse = (value: string) => {
     return value;
   }
 };
+
+export const debounceFrame = (callback: () => void) => {
+  let currentCallback: number;
+  return () => {
+    if (currentCallback) cancelAnimationFrame(currentCallback);
+    currentCallback = requestAnimationFrame(callback);
+  };
+};
