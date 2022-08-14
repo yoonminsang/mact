@@ -111,7 +111,7 @@ abstract class Component<P = {}, S = {}> {
     $target.replaceWith(el);
   }
 
-  private bfsForReplaceComponent($target: HTMLElement, isInit?: boolean) {
+  private dfsForReplaceComponent($target: HTMLElement, isInit?: boolean) {
     const $children = [...$target.children];
     const { nodeName } = $target;
 
@@ -120,7 +120,7 @@ abstract class Component<P = {}, S = {}> {
     }
 
     $children.forEach(($el) => {
-      this.bfsForReplaceComponent($el as HTMLElement, isInit);
+      this.dfsForReplaceComponent($el as HTMLElement, isInit);
     });
   }
 
@@ -128,7 +128,7 @@ abstract class Component<P = {}, S = {}> {
     const $target = document.createElement('div');
     $target.innerHTML = html;
 
-    this.bfsForReplaceComponent($target, isInit);
+    this.dfsForReplaceComponent($target, isInit);
 
     return $target.firstElementChild as HTMLElement;
   }
