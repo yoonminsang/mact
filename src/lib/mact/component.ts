@@ -45,10 +45,6 @@ abstract class Component<P = {}, S = {}> {
   protected setEvents() {}
 
   protected addEvent(eventType: keyof DocumentEventMap, selector: string, callback: (e: Event) => void) {
-    this.$el.querySelector(selector)?.addEventListener(eventType, callback);
-  }
-
-  protected addEventDelegation(eventType: keyof DocumentEventMap, selector: string, callback: (e: Event) => void) {
     const children = [...this.$el.querySelectorAll(selector)];
     const isTarget = (target: HTMLElement) => children.includes(target) || target.closest(selector);
     this.$el.addEventListener(eventType, (e) => {
