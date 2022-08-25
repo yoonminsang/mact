@@ -1,38 +1,27 @@
 import { Component } from '@/lib/mact';
 
-import Child from './child';
+import Router from './lib/router/router';
+import { Page1 } from './pages/page-1';
+import { Page2 } from './pages/page-2';
+import Parent from './components/parent';
+import { NotFoundPage } from './pages/page-not-found';
 
-export default class App extends Component<{}, { id: number }> {
-  $child!: Component;
-
-  setup() {
-    this.state = { id: 1 };
+export default class App extends Component {
+  protected componentDidMount(): void {
+    setTimeout(
+      () =>
+        new Router(this.$el, [
+          { path: '/', component: Parent },
+          { path: '/1', component: Page1 },
+          { path: '/page1/*', component: Page1 },
+          { path: '/2', component: Page2 },
+          { path: '/page2/*', component: Page1 },
+          { path: '/*', component: NotFoundPage },
+        ]),
+    );
   }
 
-  addComponents() {
-    this.$child = this.addComponent(Child, { id: this.state.id });
-  }
-
-  setEvents() {
-    this.addEvent('click', '.js-increase', () => {
-      const { id } = this.state;
-      this.setState({ id: id + 1 });
-    });
-    this.addEventDelegation('click', '.js-decrease', () => {
-      const { id } = this.state;
-      this.setState({ id: id - 1 });
-    });
-  }
-
-  render(): string {
-    return `
-    <div class='app'>
-      <h1>App</h1>
-      <button class='js-increase'>id increase</button>
-      <button class='js-decrease'>id decrease</button>
-      <div>app state id: ${this.state.id}</div>
-      <${this.$child.id} id=${this.state.id}></${this.$child.id}/>
-    </div>
-    `;
+  protected render(): string {
+    return '<div class="app"></div>';
   }
 }
