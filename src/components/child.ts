@@ -18,7 +18,7 @@ export default class Child extends Component<{ id: number }, { id: number }> {
       const { id } = this.state;
       this.setState({ id: id + 1 });
     });
-    this.addEventDelegation('click', '.js-decrease', () => {
+    this.addEvent('click', '.js-decrease', () => {
       const { id } = this.state;
       this.setState({ id: id - 1 });
     });

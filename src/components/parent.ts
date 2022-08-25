@@ -1,12 +1,16 @@
 import { Component } from '@/lib/mact';
 
 import Child from './child';
+import { RouterState } from '../lib/router/router-context';
+import { useHistory } from '../lib/router/router-hook';
 
-export default class App extends Component<{}, { id: number }> {
+export default class Parent extends Component<{}, { id: number }> {
   $child!: Component;
+  history!: RouterState;
 
   setup() {
     this.state = { id: 1 };
+    this.history = useHistory();
   }
 
   addComponents() {
@@ -14,11 +18,14 @@ export default class App extends Component<{}, { id: number }> {
   }
 
   setEvents() {
+    this.addEvent('click', '.js-go-page-1', () => {
+      this.history.push('/1', { replace: true, state: { name: 'minsang' } });
+    });
     this.addEvent('click', '.js-increase', () => {
       const { id } = this.state;
       this.setState({ id: id + 1 });
     });
-    this.addEventDelegation('click', '.js-decrease', () => {
+    this.addEvent('click', '.js-decrease', () => {
       const { id } = this.state;
       this.setState({ id: id - 1 });
     });
@@ -26,8 +33,10 @@ export default class App extends Component<{}, { id: number }> {
 
   render(): string {
     return `
-    <div class='app'>
+    <div class='parent'>
       <h1>App</h1>
+      <div class="js-go-page-1">go page 1</div>
+      <a href='/2'>go page 2</a>
       <button class='js-increase'>id increase</button>
       <button class='js-decrease'>id decrease</button>
       <div>app state id: ${this.state.id}</div>
